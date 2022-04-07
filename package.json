@@ -1,0 +1,19 @@
+{
+  "name": "sockets",
+  "version": "1.0.0",
+  "description": "test socket.io",
+  "main": "start.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PatrikPolkki/socket.git"
+  },
+  "author": "patrik Pölkki",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PatrikPolkki/socket/issues"
+  },
+  "homepage": "https://github.com/PatrikPolkki/socket#readme"
+}
