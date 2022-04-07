@@ -3,14 +3,33 @@
 <title>Socket.IO chat</title>
 <meta charset="utf-8">
 <style>
-    #messages { list-style-type: none; margin: 0; padding: 0; max-height: calc(100vh - 50px) !important; overflow: auto; }
-    #messages li { padding: 5px 10px; }
-    #messages li:nth-child(odd) { background: #eee; }
+    #messages {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        max-height: calc(100vh - 50px) !important;
+        overflow: auto;
+    }
+
+    #messages li {
+        padding: 5px 10px;
+    }
+
+    #messages li:nth-child(odd) {
+        background: #eee;
+    }
 </style>
 <ul id="messages"></ul>
 <form action="#">
+    <input id="n" autocomplete="off" placeholder="Name">
     <input id="m" autocomplete="off" placeholder="hello">
     <input type="submit">
 </form>
+<select id="room">
+    <option value="room 1">room 1</option>
+    <option value="room 2">room 2</option>
+    <option value="room 3">room 3</option>
+    <option value="room 4">room 4</option>
+</select>
 <script src="/socket.io/socket.io.js"></script>
 <script src="chat.js"></script>

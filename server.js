@@ -1,30 +1,39 @@
-// server.js
-import {ApolloServer} from 'apollo-server-express';
-import typeDefs from './schemas/index';
-import resolvers from './resolvers/index';
+'use strict';
+
+import dotenv from 'dotenv';
 import express from 'express';
-import db from './utils/db';
+import {createServer} from 'http';
+import {Server} from 'socket.io';
 
-(async () => {
-  try {
-    const server = new ApolloServer({
-      typeDefs,
-      resolvers,
+dotenv.config();
+
+const app = express();
+app.use(express.static('public'));
+const http = createServer(app);
+const io = new Server(http);
+const port = process.env.PORT || 3000;
+
+io.on('connection', (socket) => {
+  console.log('a user connected', socket.id);
+
+  socket.on('disconnect', () => {
+    console.log('a user disconnected', socket.id);
+  });
+
+  socket.on('chat message', (user, msg, room) => {
+    console.log('message:', msg);
+    io.to(room).emit('chat message', user + ' says ' + msg);
+  });
+
+  socket.on('room', (room) => {
+    socket.rooms.forEach((r) => {
+      socket.leave(r);
     });
+    socket.join(room);
+    socket.emit('room', room);
+  });
+});
 
-    const app = express();
-
-    await server.start();
-
-    server.applyMiddleware({app});
-
-    db.on('Connected', () => {});
-    app.listen({port: process.env.PORT || 3000}, () =>
-        console.log(
-            `🚀 Server ready at http://localhost:3000${server.graphqlPath}`,
-        ),
-    );
-  } catch (e) {
-    console.log('server error: ' + e.message);
-  }
-})();
+http.listen(port, () => {
+  console.log(`Socket.io chat app listening on port ${port}!`);
+});
